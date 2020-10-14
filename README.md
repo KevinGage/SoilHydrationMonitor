@@ -22,3 +22,7 @@ sudo apt-get install python3-numpy
 sudo pip3 install RPi.GPIO
 sudo pip3 install spidev
 ```
+
+## Connect display
+pinout here refers to pin number NOT gpio number
+https://www.waveshare.com/w/upload/4/4a/2.13inch-e-paper-hat-b-user-manual-en.pdf

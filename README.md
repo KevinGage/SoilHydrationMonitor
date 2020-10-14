@@ -26,3 +26,7 @@ sudo pip3 install spidev
 ## Connect display
 pinout here refers to pin number NOT gpio number
 https://www.waveshare.com/w/upload/4/4a/2.13inch-e-paper-hat-b-user-manual-en.pdf
+
+# Notes
+uses ImageDraw python library for creating text/images for screen
+https://pillow.readthedocs.io/en/stable/reference/ImageDraw.html

@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 import sys
 import os
-#picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
+from PIL import Image,ImageDraw,ImageFont
+picdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic')
 libdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib')
 if os.path.exists(libdir):
   sys.path.append(libdir)
@@ -21,7 +22,23 @@ try:
   epd.Clear()
   time.sleep(1)
 
+  logging.info("Drawing Horizontal image...")
+  # create horizontal image buffers
+  HBlackimage = Image.new('1', (epd.height, epd.width), 255)  # 298*126
+  HRYimage = Image.new('1', (epd.height, epd.width), 255)  # 298*126  ryimage: red or yellow image
+  drawblack = ImageDraw.Draw(HBlackimage)
+  drawry = ImageDraw.Draw(HRYimage)
 
+  # load a font
+  font20 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 20)
+
+  # draw on the buffers
+  drawblack.text((10, 0), 'hello world black', font = font20, fill = 0)
+  drawry.text((10, 30), 'hello world red', font = font20, fill = 0)
+
+  # draw buffers on screen
+  epd.display(epd.getbuffer(HBlackimage), epd.getbuffer(HRYimage))
+  time.sleep(20)
 
   logging.info("Clear...")
   epd.init()

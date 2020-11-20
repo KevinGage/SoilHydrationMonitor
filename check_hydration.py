@@ -51,8 +51,7 @@ def signal_handler(sig, frame):
   sys.exit()
 signal.signal(signal.SIGINT, signal_handler)
 
-# import some fonts
-font12 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 12)
+# import a font
 font60 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 60)
 
 def draw_ok(current_time):
@@ -61,8 +60,6 @@ def draw_ok(current_time):
   drawblack = ImageDraw.Draw(HBlackimage)
   drawry = ImageDraw.Draw(HRYimage)
 
-  # drawblack.text((10, 0), f'Last Check: {current_time} ', font = font12, fill = 0)
-  # drawblack.text((10, 20), 'OK', font = font60, fill = 0)
   drawblack.text((10, 20), current_time, font = font60, fill = 0)
 
   epd.display(epd.getbuffer(HBlackimage), epd.getbuffer(HRYimage))
@@ -74,8 +71,6 @@ def draw_dry(current_time):
   drawry = ImageDraw.Draw(HRYimage)
 
   drawry.rectangle([(0,0), (298,126)], fill = 0)
-  # drawry.text((10, 0), f'Last Check: {current_time} ', font = font12, fill = 1)
-  # drawry.text((10, 20), 'DRY', font = font60, fill = 1)
   drawry.text((10, 20), current_time, font = font60, fill = 1)
 
   epd.display(epd.getbuffer(HBlackimage), epd.getbuffer(HRYimage))

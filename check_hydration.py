@@ -13,6 +13,7 @@ auth = {
     'password': '',
 }
 mqtt_port = 8883
+mqtt_topic = 'home/lemontree/hydrated'
 
 ### Dont change after this line ###
 
@@ -30,6 +31,7 @@ libdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib')
 if os.path.exists(libdir):
   sys.path.append(libdir)
 from waveshare_epd import epd2in13b_V3
+import paho.mqtt.publish as publish
 
 # setup gpio input for sensor
 GPIO.setmode(GPIO.BCM)
@@ -64,6 +66,12 @@ def draw_ok(current_time):
 
   epd.display(epd.getbuffer(HBlackimage), epd.getbuffer(HRYimage))
 
+  # send mqtt hydrated = true
+  try:
+    publish.single(mqtt_topic, 'TRUE', hostname=Broker, port=mqtt_port, auth=auth, tls={})
+  except:
+    print("Error posting info to mqqt")
+
 def draw_dry(current_time):
   HBlackimage = Image.new('1', (epd.height, epd.width), 255)  # 298*126
   HRYimage = Image.new('1', (epd.height, epd.width), 255)  # 298*126  ryimage: red or yellow image
@@ -74,6 +82,12 @@ def draw_dry(current_time):
   drawry.text((10, 20), current_time, font = font60, fill = 1)
 
   epd.display(epd.getbuffer(HBlackimage), epd.getbuffer(HRYimage))
+
+  # send mqtt hydrated = false
+  try:
+    publish.single(mqtt_topic, 'FALSE', hostname=Broker, port=mqtt_port, auth=auth, tls={})
+  except:
+    print("Error posting info to mqqt")
 
 ### Main Function ###
 while True:
